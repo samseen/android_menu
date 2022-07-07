@@ -11,10 +11,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     ActionMode actionMode;
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textTitle);
         this.registerForContextMenu(textView);
 
-        Button button = findViewById(R.id.button);
+        Button button = findViewById(R.id.btnActionModeMenu);
         button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -119,6 +120,28 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+    }
+
+    public void showPopupMenu(View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.popup_menu);
+        popup.show();
+    }
+
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.popup_menu_item_1:
+                Toast.makeText(this, "Popup Menu Item 1", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.popup_menu_item_2:
+                Toast.makeText(this, "Popup Menu Item 2", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return false;
         }
     }
 }
